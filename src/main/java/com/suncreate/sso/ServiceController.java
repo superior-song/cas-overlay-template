@@ -1,7 +1,6 @@
-package com.suncreate;
+package com.suncreate.sso;
 
 import org.apereo.cas.services.*;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,12 @@ import java.net.URL;
 
 
 /**
- * @author: wangsaichao
+ * @author: songxiaoliang
  * @date: 2018/8/10
  * @description:
  */
 @RestController
+@RequestMapping("/services")
 public class ServiceController {
 
     private Logger logger = LoggerFactory.getLogger(ServiceController.class);
