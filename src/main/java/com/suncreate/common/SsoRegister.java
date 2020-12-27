@@ -12,5 +12,6 @@ public class SsoRegister {
     private String serviceId;//服务id
     private String despriction;//描述
     private String name;//名称
+    private String url;
 
 }

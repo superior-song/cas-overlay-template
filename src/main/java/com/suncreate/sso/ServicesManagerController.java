@@ -2,6 +2,7 @@ package com.suncreate.sso;
 
 import com.suncreate.common.ApiResponse;
 import com.suncreate.common.SsoRegister;
+import org.apache.commons.lang.StringUtils;
 import org.apereo.cas.services.RegexRegisteredService;
 import org.apereo.cas.services.RegisteredService;
 import org.apereo.cas.services.ReturnAllAttributeReleasePolicy;
@@ -50,6 +51,7 @@ public class ServicesManagerController {
        }
        try {
            //serviceId,可以配置为正则匹配
+           //String serviceId = "^"+url;
            RegexRegisteredService service = new RegexRegisteredService();
            ReturnAllAttributeReleasePolicy re = new ReturnAllAttributeReleasePolicy();
            service.setServiceId(url);
@@ -59,7 +61,9 @@ public class ServicesManagerController {
            service.setName(ssoRegister.getName());
            service.setDescription(ssoRegister.getDespriction());//描述
            //单点登出
-           service.setLogoutUrl(new URL(url));
+           if(StringUtils.isNotEmpty(ssoRegister.getUrl())){
+               service.setLogoutUrl(new URL(ssoRegister.getUrl()));
+           }
            servicesManager.save(service, true);
            servicesManager.load();
        }catch (Exception e){
@@ -76,8 +80,8 @@ public class ServicesManagerController {
      * @param serviceId
      * @return
      */
-    @RequestMapping(value = "/delete/{serviceId}", method = RequestMethod.GET)
-    public String delService(@PathVariable("serviceId") String serviceId) {
+    @RequestMapping(value = "/deleteService", method = RequestMethod.GET)
+    public String delService(@ApiParam(name = "serviceId",value="服务id") @RequestParam(value = "serviceId", required=true) String serviceId) {
         String res = "";
         RegisteredService svc = servicesManager.findServiceBy(serviceId);
         if (svc != null) {
