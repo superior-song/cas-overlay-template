@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.suncreate.sso.ServicesManagerController
+  com.suncreate.config.SpringConfig,\
+  com.suncreate.config.Swagger2Config
 

@@ -1,16 +1,21 @@
 package com.suncreate.sso;
 
+import com.suncreate.common.ApiResponse;
+import com.suncreate.common.SsoRegister;
 import org.apereo.cas.services.RegexRegisteredService;
 import org.apereo.cas.services.RegisteredService;
 import org.apereo.cas.services.ReturnAllAttributeReleasePolicy;
 import org.apereo.cas.services.ServicesManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,7 +27,7 @@ import java.net.URL;
 @RequestMapping("/services")
 public class ServicesManagerController {
 
-
+    private Logger logger = LoggerFactory.getLogger(ServicesManagerController.class);
     @Autowired
     @Qualifier("servicesManager")
     private ServicesManager servicesManager;
@@ -33,28 +38,36 @@ public class ServicesManagerController {
      * 增加了单点退出功能，cas退出默认使用隐式退出
      * protocol 代表的是协议，比如: http或者https的协议
      */
-    @RequestMapping(value = "/addClient/{protocol}/{serviceId}/{id}", method = RequestMethod.GET)
-    public String addService(@PathVariable("serviceId") String serviceId, @PathVariable("protocol") String protocol
-            , @PathVariable("id") int id) throws IOException {
-        String url = protocol + "://" + serviceId;
-      /*  RegisteredService svc = servicesManager.findServiceBy(url);
+    @RequestMapping(value = "/addClient", method = RequestMethod.POST)
+    public ApiResponse addService(@ApiParam("json参数") @RequestBody @Validated SsoRegister ssoRegister) throws IOException {
+        ApiResponse result = new ApiResponse();
+        String url = ssoRegister.getServiceId();
+        RegisteredService svc = servicesManager.findServiceBy(url);
         if (svc != null) {
-            return "0";
-        }*/
-        //serviceId,可以配置为正则匹配
-        String a = "^" + url + ".*";
-        RegexRegisteredService service = new RegexRegisteredService();
-        ReturnAllAttributeReleasePolicy re = new ReturnAllAttributeReleasePolicy();
-        service.setServiceId(a);
-        service.setId(id);
-        service.setAttributeReleasePolicy(re);
-        //将name统一设置为servicesId
-        service.setName(serviceId);
-        //单点登出
-        service.setLogoutUrl(new URL(url));
-        servicesManager.save(service, true);
-        servicesManager.load();
-        return "1";
+            result.setCode(204);
+            result.setMessage("该服务已经注册，清勿重新注册！");
+            return result;
+       }
+       try {
+           //serviceId,可以配置为正则匹配
+           RegexRegisteredService service = new RegexRegisteredService();
+           ReturnAllAttributeReleasePolicy re = new ReturnAllAttributeReleasePolicy();
+           service.setServiceId(url);
+           service.setId(ssoRegister.getId());
+           service.setAttributeReleasePolicy(re);
+           //将name统一设置为servicesId
+           service.setName(ssoRegister.getName());
+           service.setDescription(ssoRegister.getDespriction());//描述
+           //单点登出
+           service.setLogoutUrl(new URL(url));
+           servicesManager.save(service, true);
+           servicesManager.load();
+       }catch (Exception e){
+           result.init50XResponse();
+           result.setMessage(e.getMessage());
+           logger.error("服务器错误" + e );
+       }
+        return result;
     }
 
     /**

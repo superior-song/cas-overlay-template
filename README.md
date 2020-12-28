@@ -99,3 +99,8 @@ Invokes the CAS Command Line Shell. For a list of commands either use no argumen
 ```bash
 ./build.sh cli
 ```
+
+
+
+##新增可视化rest接口界面
+地址url + /swagger-ui.html#/
