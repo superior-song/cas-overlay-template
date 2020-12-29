@@ -12,15 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.net.URL;
-
 /**
  * @author anumbrella
  */
@@ -39,10 +36,12 @@ public class ServicesManagerController {
      * 增加了单点退出功能，cas退出默认使用隐式退出
      * protocol 代表的是协议，比如: http或者https的协议
      */
+    @ApiOperation(value = "服务注册接口", notes = "服务注册接口")
     @RequestMapping(value = "/addClient", method = RequestMethod.POST)
     public ApiResponse addService(@ApiParam("json参数") @RequestBody @Validated SsoRegister ssoRegister) throws IOException {
         ApiResponse result = new ApiResponse();
         String url = ssoRegister.getServiceId();
+
         RegisteredService svc = servicesManager.findServiceBy(url);
         if (svc != null) {
             result.setCode(204);
@@ -51,10 +50,10 @@ public class ServicesManagerController {
        }
        try {
            //serviceId,可以配置为正则匹配
-           //String serviceId = "^"+url;
+           String serviceId = url+".*";
            RegexRegisteredService service = new RegexRegisteredService();
            ReturnAllAttributeReleasePolicy re = new ReturnAllAttributeReleasePolicy();
-           service.setServiceId(url);
+           service.setServiceId(serviceId);
            service.setId(ssoRegister.getId());
            service.setAttributeReleasePolicy(re);
            //将name统一设置为servicesId
@@ -80,22 +79,45 @@ public class ServicesManagerController {
      * @param serviceId
      * @return
      */
+    @ApiOperation(value = "删除服务接口", notes = "删除服务接口")
     @RequestMapping(value = "/deleteService", method = RequestMethod.GET)
-    public String delService(@ApiParam(name = "serviceId",value="服务id") @RequestParam(value = "serviceId", required=true) String serviceId) {
-        String res = "";
-        RegisteredService svc = servicesManager.findServiceBy(serviceId);
+    public ApiResponse delService(@ApiParam(name = "serviceId",value="服务id") @RequestParam(value = "serviceId", required=true) String serviceId) {
+        ApiResponse result = new ApiResponse();
+        RegisteredService svc = servicesManager.findServiceBy(13);
         if (svc != null) {
             try {
-                servicesManager.delete(svc);
+                servicesManager.delete(13);
+                servicesManager.load();
             } catch (Exception e) {
-                if (null == servicesManager.findServiceBy(serviceId)) {
-                    res = "success";
+                e.printStackTrace();
+                if (null == servicesManager.findServiceBy(13)) {
                     servicesManager.load();
-                } else {
-                    res = "failed";
+                }else{
+                    result.init50XResponse();
+                    result.setMessage("服务错误！");
                 }
             }
         }
-        return res;
+        return result;
     }
+
+    /**
+     * 查询服务接口
+     *
+     * @param serviceId
+     * @return
+     */
+    @ApiOperation(value = "查询服务接口", notes = "查询服务接口")
+    @RequestMapping(value = "/getServiceList", method = RequestMethod.GET)
+    public ApiResponse getServiceList(@ApiParam(name = "serviceId",value="服务id") @RequestParam(value = "serviceId", required=false) String serviceId) {
+        ApiResponse result = new ApiResponse();
+        if(StringUtils.isNotEmpty(serviceId)){
+            RegisteredService svc = servicesManager.findServiceBy(serviceId);
+            result.setData(svc);
+        }else{
+            result.setData(servicesManager.getAllServices());
+        }
+        return result;
+    }
+
 }

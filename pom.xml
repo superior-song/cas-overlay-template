@@ -71,6 +71,13 @@
             <artifactId>cas-server-support-jpa-service-registry</artifactId>
             <version>${cas.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apereo.cas</groupId>
+            <artifactId>cas-server-core-services</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apereo.cas</groupId>
             <artifactId>cas-server-core-services-api</artifactId>
@@ -175,12 +182,12 @@
                         <compress>false</compress>
                         <manifestFile>${manifestFileToUse}</manifestFile>
                     </archive>
-                    <overlays>
+                  <!--  <overlays>
                         <overlay>
                             <groupId>org.apereo.cas</groupId>
                             <artifactId>cas-server-webapp${app.server}</artifactId>
                         </overlay>
-                    </overlays>
+                    </overlays>-->
                 </configuration>
             </plugin>
             <plugin>
