@@ -1,0 +1,1009 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suncreate.repository.PtUserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.suncreate.entity.PtUserInfo">
+        <id column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR"/>
+        <result column="IS_MUST_MODIFY_PSD" property="isMustModifyPsd" jdbcType="NUMERIC"/>
+        <result column="REAL_NAME" property="realName" jdbcType="VARCHAR"/>
+        <result column="PINYIN" property="pinyin" jdbcType="VARCHAR"/>
+        <result column="SEX" property="sex" jdbcType="NUMERIC"/>
+        <result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP"/>
+        <result column="ORG_ID" property="orgId" jdbcType="NUMERIC"/>
+        <result column="JOB_ID" property="jobId" jdbcType="VARCHAR"/>
+        <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR"/>
+        <result column="EMAIL" property="email" jdbcType="VARCHAR"/>
+        <result column="USER_TYPE" property="userType" jdbcType="NUMERIC"/>
+        <result column="LAST_LOGIN_TIME" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="LAST_LOGIN_IP" property="lastLoginIp" jdbcType="VARCHAR"/>
+        <result column="LOGIN_COUNT" property="loginCount" jdbcType="NUMERIC"/>
+        <result column="QQ_NO" property="qqNo" jdbcType="VARCHAR"/>
+        <result column="MSN_NO" property="msnNo" jdbcType="VARCHAR"/>
+        <result column="HOME_ADDRESS" property="homeAddress" jdbcType="VARCHAR"/>
+        <result column="USER_AVATAR" property="userAvatar" jdbcType="VARCHAR"/>
+        <result column="VCN_USER_ID" property="vcnUserId" jdbcType="VARCHAR"/>
+        <result column="VCN_STR" property="vcnStr" jdbcType="VARCHAR"/>
+        <result column="PTZ_LEVEL" property="ptzLevel" jdbcType="NUMERIC"/>
+        <result column="IS_USE_VALIDITY" property="isUseValidity" jdbcType="NUMERIC"/>
+        <result column="VALIDITY_BEGIN_DATE" property="validityBeginDate" jdbcType="TIMESTAMP"/>
+        <result column="VALIDITY_END_DATE" property="validityEndDate" jdbcType="TIMESTAMP"/>
+        <result column="SUB_SYS_PRIVILEGE" property="subSysPrivilege" jdbcType="VARCHAR"/>
+        <result column="IS_DEL" property="isDel" jdbcType="NUMERIC"/>
+        <result column="ORDER_VALUE" property="orderValue" jdbcType="NUMERIC"/>
+        <result column="ADD_ID" property="addId" jdbcType="VARCHAR"/>
+        <result column="ADD_TIME" property="addTime" jdbcType="TIMESTAMP"/>
+        <result column="MODIFY_ID" property="modifyId" jdbcType="VARCHAR"/>
+        <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="CHANGE_FLAG" property="changeFlag" jdbcType="NUMERIC"/>
+        <result column="OFFICE_PHONE" property="officePhone" jdbcType="VARCHAR"/>
+        <result column="OFFICE_ADDRESS" property="officeAddress" jdbcType="VARCHAR"/>
+        <result column="PROJECT_FLAG" property="projectFlag" jdbcType="NUMERIC"/>
+        <result column="IS_SOCIAL_ACCOUNT" property="isSocialAccount" jdbcType="NUMERIC"/>
+        <result column="VALIDITY_TYPE" property="validityType" jdbcType="NUMERIC"/>
+        <result column="ID_CARD" property="idCard" jdbcType="VARCHAR"/>
+        <result column="POLICE_NO" property="policeNo" jdbcType="VARCHAR"/>
+        <result column="ORGNAME" property="orgname" jdbcType="VARCHAR"/>
+        <result column="ROLE_IDS" property="roleIds" jdbcType="VARCHAR"/>
+        <result column="IS_VALIDATE_USER_IP" property="isValidateUserIp" jdbcType="NUMERIC"/>
+        <result column="USER_IP" property="userIp" jdbcType="VARCHAR"/>
+        <result column="PASSWORD_UPDATE_DATE" property="passwordUpdateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        a.ID,a.USER_NAME,a.PASSWORD,a.IS_MUST_MODIFY_PSD,a.REAL_NAME,a.PINYIN,a.SEX,a.BIRTHDAY,a.ORG_ID,a.JOB_ID,a.MOBILE_NO,a.EMAIL,a.USER_TYPE,a.LAST_LOGIN_TIME,a.LAST_LOGIN_IP,a.LOGIN_COUNT,a.QQ_NO,a.MSN_NO,a.HOME_ADDRESS,a.USER_AVATAR,a.VCN_USER_ID,a.VCN_STR,a.PTZ_LEVEL,a.IS_USE_VALIDITY,a.VALIDITY_BEGIN_DATE,a.VALIDITY_END_DATE,a.SUB_SYS_PRIVILEGE,a.IS_DEL,a.ORDER_VALUE,a.ADD_ID,a.ADD_TIME,a.MODIFY_ID,a.MODIFY_TIME,a.CHANGE_FLAG,a.OFFICE_PHONE,a.OFFICE_ADDRESS,a.PROJECT_FLAG,a.IS_SOCIAL_ACCOUNT,a.VALIDITY_TYPE,a.ID_CARD,a.POLICE_NO,a.ORGNAME,a.ROLE_IDS,a.IS_VALIDATE_USER_IP,a.USER_IP,a.PASSWORD_UPDATE_DATE
+    </sql>
+
+    <!-- 获取信息 -->
+    <select id="getModelByKey" resultMap="BaseResultMap" parameterType="java.lang.String" useCache="true">
+        select
+        <include refid="Base_Column_List" />
+        from PT_USER_INFO a where a.ID = #{id}
+    </select>
+
+    <!-- 删除信息 -->
+    <delete id="deleteByKey" parameterType="java.lang.String" flushCache="true">
+        delete from PT_USER_INFO where ID = #{id}
+    </delete>
+
+    <!-- 插入信息,插入后获取自增主键值 -->
+    <insert id="insert" parameterType="com.suncreate.entity.PtUserInfo" flushCache="true">
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+            SELECT SEQ_PT_USER_INFO.nextval from dual
+        </selectKey>
+        insert into PT_USER_INFO (ID,USER_NAME,PASSWORD,IS_MUST_MODIFY_PSD,REAL_NAME,PINYIN,SEX,BIRTHDAY,ORG_ID,JOB_ID,MOBILE_NO,EMAIL,USER_TYPE,LAST_LOGIN_TIME,LAST_LOGIN_IP,LOGIN_COUNT,QQ_NO,MSN_NO,HOME_ADDRESS,USER_AVATAR,VCN_USER_ID,VCN_STR,PTZ_LEVEL,IS_USE_VALIDITY,VALIDITY_BEGIN_DATE,VALIDITY_END_DATE,SUB_SYS_PRIVILEGE,IS_DEL,ORDER_VALUE,ADD_ID,ADD_TIME,MODIFY_ID,MODIFY_TIME,CHANGE_FLAG,OFFICE_PHONE,OFFICE_ADDRESS,PROJECT_FLAG,IS_SOCIAL_ACCOUNT,VALIDITY_TYPE,ID_CARD,POLICE_NO,ORGNAME,ROLE_IDS,IS_VALIDATE_USER_IP,USER_IP,PASSWORD_UPDATE_DATE)
+        values (#{id,jdbcType=NUMERIC},
+
+        #{userName,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{isMustModifyPsd,jdbcType=NUMERIC},
+        #{realName,jdbcType=VARCHAR},
+        #{pinyin,jdbcType=VARCHAR},
+        #{sex,jdbcType=NUMERIC},
+        <if test="birthday != null" >to_timestamp(to_char(#{birthday},'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS'),</if><if test="birthday == null" >null,</if>
+        #{orgId,jdbcType=NUMERIC},
+        #{jobId,jdbcType=VARCHAR},
+        #{mobileNo,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{userType,jdbcType=NUMERIC},
+        <if test="lastLoginTime != null" >to_timestamp(to_char(#{lastLoginTime},'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS'),</if><if test="lastLoginTime == null" >null,</if>
+        #{lastLoginIp,jdbcType=VARCHAR},
+        #{loginCount,jdbcType=NUMERIC},
+        #{qqNo,jdbcType=VARCHAR},
+        #{msnNo,jdbcType=VARCHAR},
+        #{homeAddress,jdbcType=VARCHAR},
+        #{userAvatar,jdbcType=VARCHAR},
+        #{vcnUserId,jdbcType=VARCHAR},
+        #{vcnStr,jdbcType=VARCHAR},
+        #{ptzLevel,jdbcType=NUMERIC},
+        #{isUseValidity,jdbcType=NUMERIC},
+        <if test="validityBeginDate != null" >to_timestamp(to_char(#{validityBeginDate},'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS'),</if><if test="validityBeginDate == null" >null,</if>
+        <if test="validityEndDate != null" >to_timestamp(to_char(#{validityEndDate},'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS'),</if><if test="validityEndDate == null" >null,</if>
+        #{subSysPrivilege,jdbcType=VARCHAR},
+        #{isDel,jdbcType=NUMERIC},
+        #{orderValue,jdbcType=NUMERIC},
+        #{addId,jdbcType=VARCHAR},
+        <if test="addTime != null" >to_timestamp(to_char(#{addTime},'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS'),</if><if test="addTime == null" >null,</if>
+        #{modifyId,jdbcType=VARCHAR},
+        <if test="modifyTime != null" >to_timestamp(to_char(#{modifyTime},'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS'),</if><if test="modifyTime == null" >null,</if>
+        #{changeFlag,jdbcType=NUMERIC},
+        #{officePhone,jdbcType=VARCHAR},
+        #{officeAddress,jdbcType=VARCHAR},
+        #{projectFlag,jdbcType=NUMERIC},
+        #{isSocialAccount,jdbcType=NUMERIC},
+        #{validityType,jdbcType=NUMERIC},
+        #{idCard,jdbcType=VARCHAR},
+        #{policeNo,jdbcType=VARCHAR},
+        #{orgname,jdbcType=VARCHAR},
+        #{roleIds,jdbcType=VARCHAR},
+        #{isValidateUserIp,jdbcType=NUMERIC},
+        #{userIp,jdbcType=VARCHAR},
+        <if test="passwordUpdateDate != null" >to_timestamp(to_char(#{passwordUpdateDate},'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS')</if><if test="passwordUpdateDate == null" >null</if>
+        )
+    </insert>
+
+    <!-- 精确更新 -->
+    <update id="updateSelective" parameterType="com.suncreate.entity.PtUserInfo" flushCache="true">
+        update PT_USER_INFO a
+        <set >
+            <if test="userName != null" >
+                a.USER_NAME = #{userName},
+            </if>
+            <if test="password != null" >
+                a.PASSWORD = #{password},
+            </if>
+            <if test="isMustModifyPsd != null" >
+                a.IS_MUST_MODIFY_PSD = #{isMustModifyPsd},
+            </if>
+            <if test="realName != null" >
+                a.REAL_NAME = #{realName},
+            </if>
+            <if test="pinyin != null" >
+                a.PINYIN = #{pinyin},
+            </if>
+            <if test="sex != null" >
+                a.SEX = #{sex},
+            </if>
+            <if test="birthday != null" >
+                a.BIRTHDAY = #{birthday},
+            </if>
+            <if test="orgId != null" >
+                a.ORG_ID = #{orgId},
+            </if>
+            <if test="jobId != null" >
+                a.JOB_ID = #{jobId},
+            </if>
+            <if test="mobileNo != null" >
+                a.MOBILE_NO = #{mobileNo},
+            </if>
+            <if test="email != null" >
+                a.EMAIL = #{email},
+            </if>
+            <if test="userType != null" >
+                a.USER_TYPE = #{userType},
+            </if>
+            <if test="lastLoginTime != null" >
+                a.LAST_LOGIN_TIME = #{lastLoginTime},
+            </if>
+            <if test="lastLoginIp != null" >
+                a.LAST_LOGIN_IP = #{lastLoginIp},
+            </if>
+            <if test="loginCount != null" >
+                a.LOGIN_COUNT = #{loginCount},
+            </if>
+            <if test="qqNo != null" >
+                a.QQ_NO = #{qqNo},
+            </if>
+            <if test="msnNo != null" >
+                a.MSN_NO = #{msnNo},
+            </if>
+            <if test="homeAddress != null" >
+                a.HOME_ADDRESS = #{homeAddress},
+            </if>
+            <if test="userAvatar != null" >
+                a.USER_AVATAR = #{userAvatar},
+            </if>
+            <if test="vcnUserId != null" >
+                a.VCN_USER_ID = #{vcnUserId},
+            </if>
+            <if test="vcnStr != null" >
+                a.VCN_STR = #{vcnStr},
+            </if>
+            <if test="ptzLevel != null" >
+                a.PTZ_LEVEL = #{ptzLevel},
+            </if>
+            <if test="isUseValidity != null" >
+                a.IS_USE_VALIDITY = #{isUseValidity},
+            </if>
+            <if test="validityBeginDate != null" >
+                a.VALIDITY_BEGIN_DATE = #{validityBeginDate},
+            </if>
+            <if test="validityEndDate != null" >
+                a.VALIDITY_END_DATE = #{validityEndDate},
+            </if>
+            <if test="subSysPrivilege != null" >
+                a.SUB_SYS_PRIVILEGE = #{subSysPrivilege},
+            </if>
+            <if test="isDel != null" >
+                a.IS_DEL = #{isDel},
+            </if>
+            <if test="orderValue != null" >
+                a.ORDER_VALUE = #{orderValue},
+            </if>
+            <if test="addId != null" >
+                a.ADD_ID = #{addId},
+            </if>
+            <if test="addTime != null" >
+                a.ADD_TIME = #{addTime},
+            </if>
+            <if test="modifyId != null" >
+                a.MODIFY_ID = #{modifyId},
+            </if>
+            <if test="modifyTime != null" >
+                a.MODIFY_TIME = #{modifyTime},
+            </if>
+            <if test="changeFlag != null" >
+                a.CHANGE_FLAG = #{changeFlag},
+            </if>
+            <if test="officePhone != null" >
+                a.OFFICE_PHONE = #{officePhone},
+            </if>
+            <if test="officeAddress != null" >
+                a.OFFICE_ADDRESS = #{officeAddress},
+            </if>
+            <if test="projectFlag != null" >
+                a.PROJECT_FLAG = #{projectFlag},
+            </if>
+            <if test="isSocialAccount != null" >
+                a.IS_SOCIAL_ACCOUNT = #{isSocialAccount},
+            </if>
+            <if test="validityType != null" >
+                a.VALIDITY_TYPE = #{validityType},
+            </if>
+            <if test="idCard != null" >
+                a.ID_CARD = #{idCard},
+            </if>
+            <if test="policeNo != null" >
+                a.POLICE_NO = #{policeNo},
+            </if>
+            <if test="orgname != null" >
+                a.ORGNAME = #{orgname},
+            </if>
+            <if test="roleIds != null" >
+                a.ROLE_IDS = #{roleIds},
+            </if>
+            <if test="isValidateUserIp != null" >
+                a.IS_VALIDATE_USER_IP = #{isValidateUserIp},
+            </if>
+            <if test="userIp != null" >
+                a.USER_IP = #{userIp},
+            </if>
+            <if test="passwordUpdateDate != null" >
+                a.PASSWORD_UPDATE_DATE = #{passwordUpdateDate}
+            </if>
+        </set>
+        where a.ID = #{id}
+    </update>
+
+    <!-- 统计记录 -->
+    <select id="countAll" resultType="java.lang.Long" parameterType="com.suncreate.entity.PtUserInfo" flushCache="true">
+        SELECT count(ID) FROM PT_USER_INFO a
+        <where>
+            <if test="id!=null and id!=''">
+                and a.ID  = #{id}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and a.USER_NAME  = #{userName}
+            </if>
+            <if test="password!=null and password!=''">
+                and a.PASSWORD  = #{password}
+            </if>
+            <if test="isMustModifyPsd!=null">
+                and a.IS_MUST_MODIFY_PSD = #{isMustModifyPsd}
+            </if>
+            <if test="realName!=null and realName!=''">
+                and a.REAL_NAME  = #{realName}
+            </if>
+            <if test="pinyin!=null and pinyin!=''">
+                and a.PINYIN  = #{pinyin}
+            </if>
+            <if test="sex!=null">
+                and a.SEX = #{sex}
+            </if>
+            <if test="birthday!=null">
+                and a.BIRTHDAY  = #{birthday}
+            </if>
+            <if test="orgId!=null">
+                and a.ORG_ID = #{orgId}
+            </if>
+            <if test="jobId!=null and jobId!=''">
+                and a.JOB_ID  = #{jobId}
+            </if>
+            <if test="mobileNo!=null and mobileNo!=''">
+                and a.MOBILE_NO  = #{mobileNo}
+            </if>
+            <if test="email!=null and email!=''">
+                and a.EMAIL  = #{email}
+            </if>
+            <if test="userType!=null">
+                and a.USER_TYPE = #{userType}
+            </if>
+            <if test="lastLoginTime!=null">
+                and a.LAST_LOGIN_TIME  = #{lastLoginTime}
+            </if>
+            <if test="lastLoginIp!=null and lastLoginIp!=''">
+                and a.LAST_LOGIN_IP  = #{lastLoginIp}
+            </if>
+            <if test="loginCount!=null">
+                and a.LOGIN_COUNT = #{loginCount}
+            </if>
+            <if test="qqNo!=null and qqNo!=''">
+                and a.QQ_NO  = #{qqNo}
+            </if>
+            <if test="msnNo!=null and msnNo!=''">
+                and a.MSN_NO  = #{msnNo}
+            </if>
+            <if test="homeAddress!=null and homeAddress!=''">
+                and a.HOME_ADDRESS  = #{homeAddress}
+            </if>
+            <if test="userAvatar!=null and userAvatar!=''">
+                and a.USER_AVATAR  = #{userAvatar}
+            </if>
+            <if test="vcnUserId!=null and vcnUserId!=''">
+                and a.VCN_USER_ID  = #{vcnUserId}
+            </if>
+            <if test="vcnStr!=null and vcnStr!=''">
+                and a.VCN_STR  = #{vcnStr}
+            </if>
+            <if test="ptzLevel!=null">
+                and a.PTZ_LEVEL = #{ptzLevel}
+            </if>
+            <if test="isUseValidity!=null">
+                and a.IS_USE_VALIDITY = #{isUseValidity}
+            </if>
+            <if test="validityBeginDate!=null">
+                and a.VALIDITY_BEGIN_DATE  = #{validityBeginDate}
+            </if>
+            <if test="validityEndDate!=null">
+                and a.VALIDITY_END_DATE  = #{validityEndDate}
+            </if>
+            <if test="subSysPrivilege!=null and subSysPrivilege!=''">
+                and a.SUB_SYS_PRIVILEGE  = #{subSysPrivilege}
+            </if>
+            <if test="isDel!=null">
+                and a.IS_DEL = #{isDel}
+            </if>
+            <if test="orderValue!=null">
+                and a.ORDER_VALUE = #{orderValue}
+            </if>
+            <if test="addId!=null and addId!=''">
+                and a.ADD_ID  = #{addId}
+            </if>
+            <if test="addTime!=null">
+                and a.ADD_TIME  = #{addTime}
+            </if>
+            <if test="modifyId!=null and modifyId!=''">
+                and a.MODIFY_ID  = #{modifyId}
+            </if>
+            <if test="modifyTime!=null">
+                and a.MODIFY_TIME  = #{modifyTime}
+            </if>
+            <if test="changeFlag!=null">
+                and a.CHANGE_FLAG = #{changeFlag}
+            </if>
+            <if test="officePhone!=null and officePhone!=''">
+                and a.OFFICE_PHONE  = #{officePhone}
+            </if>
+            <if test="officeAddress!=null and officeAddress!=''">
+                and a.OFFICE_ADDRESS  = #{officeAddress}
+            </if>
+            <if test="projectFlag!=null">
+                and a.PROJECT_FLAG = #{projectFlag}
+            </if>
+            <if test="isSocialAccount!=null">
+                and a.IS_SOCIAL_ACCOUNT = #{isSocialAccount}
+            </if>
+            <if test="validityType!=null">
+                and a.VALIDITY_TYPE = #{validityType}
+            </if>
+            <if test="idCard!=null and idCard!=''">
+                and a.ID_CARD  = #{idCard}
+            </if>
+            <if test="policeNo!=null and policeNo!=''">
+                and a.POLICE_NO  = #{policeNo}
+            </if>
+            <if test="orgname!=null and orgname!=''">
+                and a.ORGNAME  = #{orgname}
+            </if>
+            <if test="roleIds!=null and roleIds!=''">
+                and a.ROLE_IDS  = #{roleIds}
+            </if>
+            <if test="isValidateUserIp!=null">
+                and a.IS_VALIDATE_USER_IP = #{isValidateUserIp}
+            </if>
+            <if test="userIp!=null and userIp!=''">
+                and a.USER_IP  = #{userIp}
+            </if>
+            <if test="passwordUpdateDate!=null">
+                and a.PASSWORD_UPDATE_DATE  = #{passwordUpdateDate}
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询所有的ID -->
+    <select id="getAllIds" resultType="java.lang.String" parameterType="com.suncreate.entity.PtUserInfo" flushCache="true">
+        SELECT ID FROM PT_USER_INFO a
+        <where>
+            <if test="id!=null and id!=''">
+                and a.ID  = #{id}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and a.USER_NAME  = #{userName}
+            </if>
+            <if test="password!=null and password!=''">
+                and a.PASSWORD  = #{password}
+            </if>
+            <if test="isMustModifyPsd!=null">
+                and a.IS_MUST_MODIFY_PSD = #{isMustModifyPsd}
+            </if>
+            <if test="realName!=null and realName!=''">
+                and a.REAL_NAME  = #{realName}
+            </if>
+            <if test="pinyin!=null and pinyin!=''">
+                and a.PINYIN  = #{pinyin}
+            </if>
+            <if test="sex!=null">
+                and a.SEX = #{sex}
+            </if>
+            <if test="birthday!=null">
+                and a.BIRTHDAY  = #{birthday}
+            </if>
+            <if test="orgId!=null">
+                and a.ORG_ID = #{orgId}
+            </if>
+            <if test="jobId!=null and jobId!=''">
+                and a.JOB_ID  = #{jobId}
+            </if>
+            <if test="mobileNo!=null and mobileNo!=''">
+                and a.MOBILE_NO  = #{mobileNo}
+            </if>
+            <if test="email!=null and email!=''">
+                and a.EMAIL  = #{email}
+            </if>
+            <if test="userType!=null">
+                and a.USER_TYPE = #{userType}
+            </if>
+            <if test="lastLoginTime!=null">
+                and a.LAST_LOGIN_TIME  = #{lastLoginTime}
+            </if>
+            <if test="lastLoginIp!=null and lastLoginIp!=''">
+                and a.LAST_LOGIN_IP  = #{lastLoginIp}
+            </if>
+            <if test="loginCount!=null">
+                and a.LOGIN_COUNT = #{loginCount}
+            </if>
+            <if test="qqNo!=null and qqNo!=''">
+                and a.QQ_NO  = #{qqNo}
+            </if>
+            <if test="msnNo!=null and msnNo!=''">
+                and a.MSN_NO  = #{msnNo}
+            </if>
+            <if test="homeAddress!=null and homeAddress!=''">
+                and a.HOME_ADDRESS  = #{homeAddress}
+            </if>
+            <if test="userAvatar!=null and userAvatar!=''">
+                and a.USER_AVATAR  = #{userAvatar}
+            </if>
+            <if test="vcnUserId!=null and vcnUserId!=''">
+                and a.VCN_USER_ID  = #{vcnUserId}
+            </if>
+            <if test="vcnStr!=null and vcnStr!=''">
+                and a.VCN_STR  = #{vcnStr}
+            </if>
+            <if test="ptzLevel!=null">
+                and a.PTZ_LEVEL = #{ptzLevel}
+            </if>
+            <if test="isUseValidity!=null">
+                and a.IS_USE_VALIDITY = #{isUseValidity}
+            </if>
+            <if test="validityBeginDate!=null">
+                and a.VALIDITY_BEGIN_DATE  = #{validityBeginDate}
+            </if>
+            <if test="validityEndDate!=null">
+                and a.VALIDITY_END_DATE  = #{validityEndDate}
+            </if>
+            <if test="subSysPrivilege!=null and subSysPrivilege!=''">
+                and a.SUB_SYS_PRIVILEGE  = #{subSysPrivilege}
+            </if>
+            <if test="isDel!=null">
+                and a.IS_DEL = #{isDel}
+            </if>
+            <if test="orderValue!=null">
+                and a.ORDER_VALUE = #{orderValue}
+            </if>
+            <if test="addId!=null and addId!=''">
+                and a.ADD_ID  = #{addId}
+            </if>
+            <if test="addTime!=null">
+                and a.ADD_TIME  = #{addTime}
+            </if>
+            <if test="modifyId!=null and modifyId!=''">
+                and a.MODIFY_ID  = #{modifyId}
+            </if>
+            <if test="modifyTime!=null">
+                and a.MODIFY_TIME  = #{modifyTime}
+            </if>
+            <if test="changeFlag!=null">
+                and a.CHANGE_FLAG = #{changeFlag}
+            </if>
+            <if test="officePhone!=null and officePhone!=''">
+                and a.OFFICE_PHONE  = #{officePhone}
+            </if>
+            <if test="officeAddress!=null and officeAddress!=''">
+                and a.OFFICE_ADDRESS  = #{officeAddress}
+            </if>
+            <if test="projectFlag!=null">
+                and a.PROJECT_FLAG = #{projectFlag}
+            </if>
+            <if test="isSocialAccount!=null">
+                and a.IS_SOCIAL_ACCOUNT = #{isSocialAccount}
+            </if>
+            <if test="validityType!=null">
+                and a.VALIDITY_TYPE = #{validityType}
+            </if>
+            <if test="idCard!=null and idCard!=''">
+                and a.ID_CARD  = #{idCard}
+            </if>
+            <if test="policeNo!=null and policeNo!=''">
+                and a.POLICE_NO  = #{policeNo}
+            </if>
+            <if test="orgname!=null and orgname!=''">
+                and a.ORGNAME  = #{orgname}
+            </if>
+            <if test="roleIds!=null and roleIds!=''">
+                and a.ROLE_IDS  = #{roleIds}
+            </if>
+            <if test="isValidateUserIp!=null">
+                and a.IS_VALIDATE_USER_IP = #{isValidateUserIp}
+            </if>
+            <if test="userIp!=null and userIp!=''">
+                and a.USER_IP  = #{userIp}
+            </if>
+            <if test="passwordUpdateDate!=null">
+                and a.PASSWORD_UPDATE_DATE  = #{passwordUpdateDate}
+            </if>
+        </where>
+        <if test="map!=null">
+            <if test="map.orderBy!=null">
+                ${map.orderBy}
+            </if>
+        </if>
+    </select>
+
+    <!-- 按条件获取 -->
+    <select id="getListByWhere" resultMap="BaseResultMap" parameterType="com.suncreate.entity.PtUserInfo" flushCache="true">
+        select
+        <include refid="Base_Column_List" />
+        from PT_USER_INFO a
+        <where>
+            <if test="id!=null and id!=''">
+                and a.ID =#{id}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and a.USER_NAME =#{userName}
+            </if>
+            <if test="password!=null and password!=''">
+                and a.PASSWORD =#{password}
+            </if>
+            <if test="isMustModifyPsd!=null">
+                and a.IS_MUST_MODIFY_PSD = #{isMustModifyPsd}
+            </if>
+            <if test="realName!=null and realName!=''">
+                and a.REAL_NAME =#{realName}
+            </if>
+            <if test="pinyin!=null and pinyin!=''">
+                and a.PINYIN =#{pinyin}
+            </if>
+            <if test="sex!=null">
+                and a.SEX = #{sex}
+            </if>
+            <if test="birthday!=null">
+                and a.BIRTHDAY =#{birthday}
+            </if>
+            <if test="orgId!=null">
+                and a.ORG_ID = #{orgId}
+            </if>
+            <if test="jobId!=null and jobId!=''">
+                and a.JOB_ID =#{jobId}
+            </if>
+            <if test="mobileNo!=null and mobileNo!=''">
+                and a.MOBILE_NO =#{mobileNo}
+            </if>
+            <if test="email!=null and email!=''">
+                and a.EMAIL =#{email}
+            </if>
+            <if test="userType!=null">
+                and a.USER_TYPE = #{userType}
+            </if>
+            <if test="lastLoginTime!=null">
+                and a.LAST_LOGIN_TIME =#{lastLoginTime}
+            </if>
+            <if test="lastLoginIp!=null and lastLoginIp!=''">
+                and a.LAST_LOGIN_IP =#{lastLoginIp}
+            </if>
+            <if test="loginCount!=null">
+                and a.LOGIN_COUNT = #{loginCount}
+            </if>
+            <if test="qqNo!=null and qqNo!=''">
+                and a.QQ_NO =#{qqNo}
+            </if>
+            <if test="msnNo!=null and msnNo!=''">
+                and a.MSN_NO =#{msnNo}
+            </if>
+            <if test="homeAddress!=null and homeAddress!=''">
+                and a.HOME_ADDRESS =#{homeAddress}
+            </if>
+            <if test="userAvatar!=null and userAvatar!=''">
+                and a.USER_AVATAR =#{userAvatar}
+            </if>
+            <if test="vcnUserId!=null and vcnUserId!=''">
+                and a.VCN_USER_ID =#{vcnUserId}
+            </if>
+            <if test="vcnStr!=null and vcnStr!=''">
+                and a.VCN_STR =#{vcnStr}
+            </if>
+            <if test="ptzLevel!=null">
+                and a.PTZ_LEVEL = #{ptzLevel}
+            </if>
+            <if test="isUseValidity!=null">
+                and a.IS_USE_VALIDITY = #{isUseValidity}
+            </if>
+            <if test="validityBeginDate!=null">
+                and a.VALIDITY_BEGIN_DATE =#{validityBeginDate}
+            </if>
+            <if test="validityEndDate!=null">
+                and a.VALIDITY_END_DATE =#{validityEndDate}
+            </if>
+            <if test="subSysPrivilege!=null and subSysPrivilege!=''">
+                and a.SUB_SYS_PRIVILEGE =#{subSysPrivilege}
+            </if>
+            <if test="isDel!=null">
+                and a.IS_DEL = #{isDel}
+            </if>
+            <if test="orderValue!=null">
+                and a.ORDER_VALUE = #{orderValue}
+            </if>
+            <if test="addId!=null and addId!=''">
+                and a.ADD_ID =#{addId}
+            </if>
+            <if test="addTime!=null">
+                and a.ADD_TIME =#{addTime}
+            </if>
+            <if test="modifyId!=null and modifyId!=''">
+                and a.MODIFY_ID =#{modifyId}
+            </if>
+            <if test="modifyTime!=null">
+                and a.MODIFY_TIME =#{modifyTime}
+            </if>
+            <if test="changeFlag!=null">
+                and a.CHANGE_FLAG = #{changeFlag}
+            </if>
+            <if test="officePhone!=null and officePhone!=''">
+                and a.OFFICE_PHONE =#{officePhone}
+            </if>
+            <if test="officeAddress!=null and officeAddress!=''">
+                and a.OFFICE_ADDRESS =#{officeAddress}
+            </if>
+            <if test="projectFlag!=null">
+                and a.PROJECT_FLAG = #{projectFlag}
+            </if>
+            <if test="isSocialAccount!=null">
+                and a.IS_SOCIAL_ACCOUNT = #{isSocialAccount}
+            </if>
+            <if test="validityType!=null">
+                and a.VALIDITY_TYPE = #{validityType}
+            </if>
+            <if test="idCard!=null and idCard!=''">
+                and a.ID_CARD =#{idCard}
+            </if>
+            <if test="policeNo!=null and policeNo!=''">
+                and a.POLICE_NO =#{policeNo}
+            </if>
+            <if test="orgname!=null and orgname!=''">
+                and a.ORGNAME =#{orgname}
+            </if>
+            <if test="roleIds!=null and roleIds!=''">
+                and a.ROLE_IDS =#{roleIds}
+            </if>
+            <if test="isValidateUserIp!=null">
+                and a.IS_VALIDATE_USER_IP = #{isValidateUserIp}
+            </if>
+            <if test="userIp!=null and userIp!=''">
+                and a.USER_IP =#{userIp}
+            </if>
+            <if test="passwordUpdateDate!=null">
+                and a.PASSWORD_UPDATE_DATE =#{passwordUpdateDate}
+            </if>
+        </where>
+        <if test="map!=null">
+            <if test="map.orderBy!=null">
+                ${map.orderBy}
+            </if>
+            <if test="map.orderBy==null">
+                ORDER BY a.ID asc
+            </if>
+        </if>
+    </select>
+
+    <!-- 按条件获取信息 -->
+    <select id="getModelByWhere" resultMap="BaseResultMap" parameterType="com.suncreate.entity.PtUserInfo" useCache="true">
+        select
+        <include refid="Base_Column_List" />
+        from PT_USER_INFO a
+        <where>
+            <if test="id!=null and id!=''">
+                and a.ID =#{id}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and a.USER_NAME =#{userName}
+            </if>
+            <if test="password!=null and password!=''">
+                and a.PASSWORD =#{password}
+            </if>
+            <if test="isMustModifyPsd!=null">
+                and a.IS_MUST_MODIFY_PSD = #{isMustModifyPsd}
+            </if>
+            <if test="realName!=null and realName!=''">
+                and a.REAL_NAME =#{realName}
+            </if>
+            <if test="pinyin!=null and pinyin!=''">
+                and a.PINYIN =#{pinyin}
+            </if>
+            <if test="sex!=null">
+                and a.SEX = #{sex}
+            </if>
+            <if test="birthday!=null">
+                and a.BIRTHDAY =#{birthday}
+            </if>
+            <if test="orgId!=null">
+                and a.ORG_ID = #{orgId}
+            </if>
+            <if test="jobId!=null and jobId!=''">
+                and a.JOB_ID =#{jobId}
+            </if>
+            <if test="mobileNo!=null and mobileNo!=''">
+                and a.MOBILE_NO =#{mobileNo}
+            </if>
+            <if test="email!=null and email!=''">
+                and a.EMAIL =#{email}
+            </if>
+            <if test="userType!=null">
+                and a.USER_TYPE = #{userType}
+            </if>
+            <if test="lastLoginTime!=null">
+                and a.LAST_LOGIN_TIME =#{lastLoginTime}
+            </if>
+            <if test="lastLoginIp!=null and lastLoginIp!=''">
+                and a.LAST_LOGIN_IP =#{lastLoginIp}
+            </if>
+            <if test="loginCount!=null">
+                and a.LOGIN_COUNT = #{loginCount}
+            </if>
+            <if test="qqNo!=null and qqNo!=''">
+                and a.QQ_NO =#{qqNo}
+            </if>
+            <if test="msnNo!=null and msnNo!=''">
+                and a.MSN_NO =#{msnNo}
+            </if>
+            <if test="homeAddress!=null and homeAddress!=''">
+                and a.HOME_ADDRESS =#{homeAddress}
+            </if>
+            <if test="userAvatar!=null and userAvatar!=''">
+                and a.USER_AVATAR =#{userAvatar}
+            </if>
+            <if test="vcnUserId!=null and vcnUserId!=''">
+                and a.VCN_USER_ID =#{vcnUserId}
+            </if>
+            <if test="vcnStr!=null and vcnStr!=''">
+                and a.VCN_STR =#{vcnStr}
+            </if>
+            <if test="ptzLevel!=null">
+                and a.PTZ_LEVEL = #{ptzLevel}
+            </if>
+            <if test="isUseValidity!=null">
+                and a.IS_USE_VALIDITY = #{isUseValidity}
+            </if>
+            <if test="validityBeginDate!=null">
+                and a.VALIDITY_BEGIN_DATE =#{validityBeginDate}
+            </if>
+            <if test="validityEndDate!=null">
+                and a.VALIDITY_END_DATE =#{validityEndDate}
+            </if>
+            <if test="subSysPrivilege!=null and subSysPrivilege!=''">
+                and a.SUB_SYS_PRIVILEGE =#{subSysPrivilege}
+            </if>
+            <if test="isDel!=null">
+                and a.IS_DEL = #{isDel}
+            </if>
+            <if test="orderValue!=null">
+                and a.ORDER_VALUE = #{orderValue}
+            </if>
+            <if test="addId!=null and addId!=''">
+                and a.ADD_ID =#{addId}
+            </if>
+            <if test="addTime!=null">
+                and a.ADD_TIME =#{addTime}
+            </if>
+            <if test="modifyId!=null and modifyId!=''">
+                and a.MODIFY_ID =#{modifyId}
+            </if>
+            <if test="modifyTime!=null">
+                and a.MODIFY_TIME =#{modifyTime}
+            </if>
+            <if test="changeFlag!=null">
+                and a.CHANGE_FLAG = #{changeFlag}
+            </if>
+            <if test="officePhone!=null and officePhone!=''">
+                and a.OFFICE_PHONE =#{officePhone}
+            </if>
+            <if test="officeAddress!=null and officeAddress!=''">
+                and a.OFFICE_ADDRESS =#{officeAddress}
+            </if>
+            <if test="projectFlag!=null">
+                and a.PROJECT_FLAG = #{projectFlag}
+            </if>
+            <if test="isSocialAccount!=null">
+                and a.IS_SOCIAL_ACCOUNT = #{isSocialAccount}
+            </if>
+            <if test="validityType!=null">
+                and a.VALIDITY_TYPE = #{validityType}
+            </if>
+            <if test="idCard!=null and idCard!=''">
+                and a.ID_CARD =#{idCard}
+            </if>
+            <if test="policeNo!=null and policeNo!=''">
+                and a.POLICE_NO =#{policeNo}
+            </if>
+            <if test="orgname!=null and orgname!=''">
+                and a.ORGNAME =#{orgname}
+            </if>
+            <if test="roleIds!=null and roleIds!=''">
+                and a.ROLE_IDS =#{roleIds}
+            </if>
+            <if test="isValidateUserIp!=null">
+                and a.IS_VALIDATE_USER_IP = #{isValidateUserIp}
+            </if>
+            <if test="userIp!=null and userIp!=''">
+                and a.USER_IP =#{userIp}
+            </if>
+            <if test="passwordUpdateDate!=null">
+                and a.PASSWORD_UPDATE_DATE =#{passwordUpdateDate}
+            </if>
+        </where>
+        ORDER BY a.ID asc
+    </select>
+
+    <!-- 按条件删除信息-->
+    <delete id="deleteByWhere" parameterType="com.suncreate.entity.PtUserInfo" flushCache="true">
+        delete from PT_USER_INFO
+        <where>
+            <if test="id!=null and id!=''">
+                and ID =#{id}
+            </if>
+            <if test="userName!=null and userName!=''">
+                and USER_NAME =#{userName}
+            </if>
+            <if test="password!=null and password!=''">
+                and PASSWORD =#{password}
+            </if>
+            <if test="isMustModifyPsd!=null">
+                and IS_MUST_MODIFY_PSD = #{isMustModifyPsd}
+            </if>
+            <if test="realName!=null and realName!=''">
+                and REAL_NAME =#{realName}
+            </if>
+            <if test="pinyin!=null and pinyin!=''">
+                and PINYIN =#{pinyin}
+            </if>
+            <if test="sex!=null">
+                and SEX = #{sex}
+            </if>
+            <if test="birthday!=null">
+                and BIRTHDAY =#{birthday}
+            </if>
+            <if test="orgId!=null">
+                and ORG_ID = #{orgId}
+            </if>
+            <if test="jobId!=null and jobId!=''">
+                and JOB_ID =#{jobId}
+            </if>
+            <if test="mobileNo!=null and mobileNo!=''">
+                and MOBILE_NO =#{mobileNo}
+            </if>
+            <if test="email!=null and email!=''">
+                and EMAIL =#{email}
+            </if>
+            <if test="userType!=null">
+                and USER_TYPE = #{userType}
+            </if>
+            <if test="lastLoginTime!=null">
+                and LAST_LOGIN_TIME =#{lastLoginTime}
+            </if>
+            <if test="lastLoginIp!=null and lastLoginIp!=''">
+                and LAST_LOGIN_IP =#{lastLoginIp}
+            </if>
+            <if test="loginCount!=null">
+                and LOGIN_COUNT = #{loginCount}
+            </if>
+            <if test="qqNo!=null and qqNo!=''">
+                and QQ_NO =#{qqNo}
+            </if>
+            <if test="msnNo!=null and msnNo!=''">
+                and MSN_NO =#{msnNo}
+            </if>
+            <if test="homeAddress!=null and homeAddress!=''">
+                and HOME_ADDRESS =#{homeAddress}
+            </if>
+            <if test="userAvatar!=null and userAvatar!=''">
+                and USER_AVATAR =#{userAvatar}
+            </if>
+            <if test="vcnUserId!=null and vcnUserId!=''">
+                and VCN_USER_ID =#{vcnUserId}
+            </if>
+            <if test="vcnStr!=null and vcnStr!=''">
+                and VCN_STR =#{vcnStr}
+            </if>
+            <if test="ptzLevel!=null">
+                and PTZ_LEVEL = #{ptzLevel}
+            </if>
+            <if test="isUseValidity!=null">
+                and IS_USE_VALIDITY = #{isUseValidity}
+            </if>
+            <if test="validityBeginDate!=null">
+                and VALIDITY_BEGIN_DATE =#{validityBeginDate}
+            </if>
+            <if test="validityEndDate!=null">
+                and VALIDITY_END_DATE =#{validityEndDate}
+            </if>
+            <if test="subSysPrivilege!=null and subSysPrivilege!=''">
+                and SUB_SYS_PRIVILEGE =#{subSysPrivilege}
+            </if>
+            <if test="isDel!=null">
+                and IS_DEL = #{isDel}
+            </if>
+            <if test="orderValue!=null">
+                and ORDER_VALUE = #{orderValue}
+            </if>
+            <if test="addId!=null and addId!=''">
+                and ADD_ID =#{addId}
+            </if>
+            <if test="addTime!=null">
+                and ADD_TIME =#{addTime}
+            </if>
+            <if test="modifyId!=null and modifyId!=''">
+                and MODIFY_ID =#{modifyId}
+            </if>
+            <if test="modifyTime!=null">
+                and MODIFY_TIME =#{modifyTime}
+            </if>
+            <if test="changeFlag!=null">
+                and CHANGE_FLAG = #{changeFlag}
+            </if>
+            <if test="officePhone!=null and officePhone!=''">
+                and OFFICE_PHONE =#{officePhone}
+            </if>
+            <if test="officeAddress!=null and officeAddress!=''">
+                and OFFICE_ADDRESS =#{officeAddress}
+            </if>
+            <if test="projectFlag!=null">
+                and PROJECT_FLAG = #{projectFlag}
+            </if>
+            <if test="isSocialAccount!=null">
+                and IS_SOCIAL_ACCOUNT = #{isSocialAccount}
+            </if>
+            <if test="validityType!=null">
+                and VALIDITY_TYPE = #{validityType}
+            </if>
+            <if test="idCard!=null and idCard!=''">
+                and ID_CARD =#{idCard}
+            </if>
+            <if test="policeNo!=null and policeNo!=''">
+                and POLICE_NO =#{policeNo}
+            </if>
+            <if test="orgname!=null and orgname!=''">
+                and ORGNAME =#{orgname}
+            </if>
+            <if test="roleIds!=null and roleIds!=''">
+                and ROLE_IDS =#{roleIds}
+            </if>
+            <if test="isValidateUserIp!=null">
+                and IS_VALIDATE_USER_IP = #{isValidateUserIp}
+            </if>
+            <if test="userIp!=null and userIp!=''">
+                and USER_IP =#{userIp}
+            </if>
+            <if test="passwordUpdateDate!=null">
+                and PASSWORD_UPDATE_DATE =#{passwordUpdateDate}
+            </if>
+        </where>
+    </delete>
+</mapper>
