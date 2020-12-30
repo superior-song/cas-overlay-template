@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 @Transactional(transactionManager = "transactionManagerMobileId")
 @ToString
 public class JpaMobileUserRepository implements UserRepository {
+
     @PersistenceContext(unitName = "mobileUserEntityManagerFactory")
     private transient EntityManager entityManager;
     private final String SELECT_QUERY = "select r from Puser r ";
