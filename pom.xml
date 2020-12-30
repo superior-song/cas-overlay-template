@@ -15,7 +15,7 @@
             <artifactId>cas-server-support-jdbc-drivers</artifactId>
             <version>${cas.version}</version>
         </dependency>
-        <dependency>
+    <!--    <dependency>
             <groupId>org.apereo.cas</groupId>
             <artifactId>cas-server-support-jdbc</artifactId>
             <version>${cas.version}</version>
@@ -24,9 +24,8 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.30</version>
-        </dependency>
+        </dependency>-->
 
-<!--
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
@@ -37,7 +36,6 @@
             <artifactId>cas-server-support-jdbc</artifactId>
             <version>${cas.version}</version>
         </dependency>
--->
 
         <!--redis依赖包-->
         <dependency>
@@ -69,6 +67,16 @@
         <dependency>
             <groupId>org.apereo.cas</groupId>
             <artifactId>cas-server-support-jpa-service-registry</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apereo.cas</groupId>
+            <artifactId>cas-server-support-jpa-util</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apereo.cas</groupId>
+            <artifactId>cas-server-core-util-api</artifactId>
             <version>${cas.version}</version>
         </dependency>
 
@@ -106,40 +114,94 @@
             <version>2.6.0</version>
             <scope>compile</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-configuration-processor</artifactId>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-autoconfigure</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apereo.cas</groupId>-->
-<!--            <artifactId>cas-server-core-api-configuration-model</artifactId>-->
-<!--            <version>${cas.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apereo.cas</groupId>-->
-<!--            <artifactId>cas-server-core-util-api</artifactId>-->
-<!--            <version>${cas.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--        <groupId>org.apereo.cas</groupId>-->
-<!--        <artifactId>cas-server-core-audit-api</artifactId>-->
-<!--        <version>${cas.version}</version>-->
-<!--       </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.aspectj</groupId>-->
-<!--            <artifactId>aspectjrt</artifactId>-->
-<!--            <version>1.9.1</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>javax.servlet</groupId>-->
-<!--            <artifactId>servlet-api</artifactId>-->
-<!--            <version>2.5</version>-->
-<!--        </dependency>-->
+
+
+        <!--自定义用户登入依赖集成 -->
+        <dependency>
+            <groupId>org.apereo.cas</groupId>
+            <artifactId>cas-server-core-webflow</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apereo.cas</groupId>
+            <artifactId>cas-server-core-authentication</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apereo.cas</groupId>
+            <artifactId>cas-server-core-authentication-api</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
+        <dependency>
+        <groupId>org.apereo.cas</groupId>
+        <artifactId>cas-server-core-webflow-api</artifactId>
+        <version>${cas.version}</version>
+        </dependency>
+
+
+        <!--oracle数据库以及mybatis集成-->
+ <!--       <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.10</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apereo.cas</groupId>
+            <artifactId>cas-server-support-jdbc</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
+        &lt;!&ndash;    通用mapper&ndash;&gt;
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>2.1.5</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.12</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        &lt;!&ndash;oracle数据库以及mybatis集成结束&ndash;&gt;
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.22</version>
+        </dependency>-->
     </dependencies>
     <build>
         <plugins>
