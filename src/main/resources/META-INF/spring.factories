@@ -1,5 +1,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.suncreate.config.SpringConfig,\
   com.suncreate.config.Swagger2Config,\
-  com.suncreate.config.PermissionConfig
+  com.suncreate.config.PermissionConfig,\
+  com.suncreate.config.UsernamePasswordCaptchaConfig,\
+  com.suncreate.config.CaptchaConfigurer
 

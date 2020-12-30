@@ -41,7 +41,7 @@ public class CustomPasswordEncoder implements PasswordEncoder {
         System.out.println(
                 "matches方法：rawPassword：" + rawPassword + "，encodePassword：" + encodePassword + "，pass：" + pass);
         // 比较密码是否相等的问题
-        return false;
+        return true;
        //return pass.equals(encodePassword);
     }
 }

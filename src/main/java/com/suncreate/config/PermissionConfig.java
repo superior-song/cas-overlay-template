@@ -23,7 +23,7 @@ public class PermissionConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         //注册TestInterceptor拦截器
         InterceptorRegistration registration = registry.addInterceptor(new PermissionInterceptor());
-        registration.addPathPatterns("/**");                      //所有路径都被拦截
+        registration.addPathPatterns("/**","/login");                      //所有路径都被拦截
         registration.excludePathPatterns(                         //添加不拦截路径
                 "你的登陆路径",            //登录
                 "/**/*.html",            //html静态资源

@@ -22,17 +22,21 @@ import org.springframework.web.servlet.ModelAndView;
 public class PermissionInterceptor implements  HandlerInterceptor {
 
     /**
-     * 在请求处理之前进行调用（Controller方法调用之前）
+     * 在请求处理之前进行调用（Controller方法调用之前） 此拦截器作为用户登录权限控制
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         try {
             //统一拦截（查询当前session是否存在user）(这里user会在每次登陆成功后，写入session)
             // request获取返回url 1如果url为空
+            String para = request.getQueryString();//获取
+            System.out.println(para);
+            System.out.println(request.getRequestURL());
             SecurityProperties.User user=(SecurityProperties.User)request.getSession().getAttribute("USER");
             if(user==null){
                 return true;
             }
+
             response.sendRedirect(request.getContextPath()+"你的登陆页地址");
         } catch (IOException e) {
             e.printStackTrace();
