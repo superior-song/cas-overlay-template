@@ -4,5 +4,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.suncreate.config.PermissionConfig,\
   com.suncreate.config.UsernamePasswordCaptchaConfig,\
   com.suncreate.config.CaptchaConfigurer,\
-  com.suncreate.config.jdbc.JpaMobileConfig
+  com.suncreate.config.db.SpringJdbcConfig
 

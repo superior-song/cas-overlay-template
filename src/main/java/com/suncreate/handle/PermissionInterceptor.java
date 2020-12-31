@@ -36,7 +36,6 @@ public class PermissionInterceptor implements  HandlerInterceptor {
             if(user==null){
                 return true;
             }
-
             response.sendRedirect(request.getContextPath()+"你的登陆页地址");
         } catch (IOException e) {
             e.printStackTrace();

@@ -8,22 +8,14 @@ import java.util.Map;
 
 import javax.security.auth.login.AccountNotFoundException;
 import javax.security.auth.login.FailedLoginException;
-
-import com.cas.login.CaptchaException;
 import com.cas.login.PasswordEncryption;
 import com.cas.login.UsernamePasswordCaptchaCredential;
-import org.apache.commons.lang.StringUtils;
-import org.apereo.cas.authentication.AuthenticationHandlerExecutionResult;
-import org.apereo.cas.authentication.Credential;
-import org.apereo.cas.authentication.MessageDescriptor;
-import org.apereo.cas.authentication.PreventedException;
+import org.apereo.cas.authentication.*;
 import org.apereo.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.services.ServicesManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 自定义用户认证核心代码
@@ -32,7 +24,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAndPostProcessingAuthenticationHandler {
 
-    public UsernamePasswordCaptchaAuthenticationHandler(String name, ServicesManager servicesManager,
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+     public UsernamePasswordCaptchaAuthenticationHandler(String name, ServicesManager servicesManager,
                                                         PrincipalFactory principalFactory, Integer order) {
         super(name, servicesManager, principalFactory, order);
         // TODO Auto-generated constructor stub
@@ -44,6 +39,8 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
         // TODO Auto-generated method stub
         // 用户凭证
         UsernamePasswordCaptchaCredential myCredential = (UsernamePasswordCaptchaCredential) credential;
+       // PtUserInfo userInfo = jpaMobileUserRepository.getPrincipal("徐俊");
+     //   System.out.println(userInfo.toString());
        /* String requestCaptcha = myCredential.getCaptcha();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         Object attribute = attributes.getRequest().getSession().getAttribute("captcha");
@@ -53,22 +50,10 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
         if (StringUtils.isBlank(requestCaptcha) || !requestCaptcha.equalsIgnoreCase(realCaptcha)) {
             throw new CaptchaException("验证码错误");
         }*/
-
-        // 验证用户名和密码
-        DriverManagerDataSource d = new DriverManagerDataSource();
-        d.setDriverClassName("com.mysql.jdbc.Driver");
-        d.setUrl(
-                "jdbc:mysql://192.168.1.73:3306/boot-security?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true");
-        d.setUsername("root");
-        d.setPassword("digipower");
-
-        JdbcTemplate template = new JdbcTemplate();
-        template.setDataSource(d);
-
         // 查询数据库加密的的密码
-        Map<String, Object> user = template.queryForMap("select pswd from u_user where nickname = ?",
+        Map<String, Object> user = jdbcTemplate.queryForMap("select * from pt_user_info where user_name = ?",
                 myCredential.getUsername());
-
+     //   Map<String, Object> user = null;
         if (user == null) {
             throw new AccountNotFoundException("用户名输入错误或用户名不存在");
         }
