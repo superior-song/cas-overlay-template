@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.security.auth.login.AccountNotFoundException;
+import javax.security.auth.login.CredentialExpiredException;
 import javax.security.auth.login.FailedLoginException;
 
 import com.cas.login.CaptchaException;
@@ -73,8 +74,7 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
         }
 
         // 查询数据库加密的的密码
-        Map<String, Object> user = jdbcTemplate.queryForMap("select * from PT_USER_INFO where user_name = ? AND IS_DEL =0",
-                myCredential.getUsername());
+        Map<String, Object> user = jdbcTemplate.queryForMap("select * from PT_USER_INFO where user_name = ? AND IS_DEL =0",myCredential.getUsername());
         if (user == null) {
             throw new AccountNotFoundException(CasConstants.ERROR_MESSAGE.ERROR_NAME);
         }
@@ -90,7 +90,8 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
             return createHandlerResult(myCredential, principalFactory.createPrincipal(myCredential.getUsername(), map),
                     warning);
         }
-        throw new FailedLoginException("密码输入错误");
+        throw new FailedLoginException("用户名或密码错11误！");
+        //判断用户状态 是否锁定 是否过去
     }
 
     // 判断是否支持自定义用户登入凭证
