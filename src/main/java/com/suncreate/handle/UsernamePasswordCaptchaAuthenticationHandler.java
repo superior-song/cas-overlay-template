@@ -15,8 +15,7 @@ import com.cas.login.CaptchaException;
 import com.cas.login.PasswordEncryption;
 import com.cas.login.UsernamePasswordCaptchaCredential;
 import com.suncreate.common.CasConstants;
-import com.suncreate.entity.PtSubSystem;
-import com.suncreate.entity.PtUserInfo;
+import com.suncreate.exception.MyAccountNotFoundException;
 import org.apache.commons.lang.StringUtils;
 import org.apereo.cas.authentication.*;
 import org.apereo.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
@@ -46,14 +45,13 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
     @Override
     protected AuthenticationHandlerExecutionResult doAuthentication(Credential credential)
             throws GeneralSecurityException, PreventedException {
-        // TODO Auto-generated method stub
         // 用户凭证
         UsernamePasswordCaptchaCredential myCredential = (UsernamePasswordCaptchaCredential) credential;
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         String serviceUrl = attributes.getRequest().getParameter("service");
         if(StringUtils.isEmpty(serviceUrl)){
             //服务为空 则给出提示
-            throw new CaptchaException(CasConstants.ERROR_MESSAGE.LACK_SEVICE);
+            throw new MyAccountNotFoundException(CasConstants.ERROR_MESSAGE.LACK_SEVICE);
             //  未认证授权的服务
             //  授权的服务重复
         }
