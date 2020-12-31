@@ -1,5 +1,7 @@
 package com.suncreate.handle;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,14 +10,22 @@ import java.util.Map;
 
 import javax.security.auth.login.AccountNotFoundException;
 import javax.security.auth.login.FailedLoginException;
+
+import com.cas.login.CaptchaException;
 import com.cas.login.PasswordEncryption;
 import com.cas.login.UsernamePasswordCaptchaCredential;
+import com.suncreate.common.CasConstants;
+import com.suncreate.entity.PtSubSystem;
+import com.suncreate.entity.PtUserInfo;
+import org.apache.commons.lang.StringUtils;
 import org.apereo.cas.authentication.*;
 import org.apereo.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.services.ServicesManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 自定义用户认证核心代码
@@ -39,23 +49,36 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
         // TODO Auto-generated method stub
         // 用户凭证
         UsernamePasswordCaptchaCredential myCredential = (UsernamePasswordCaptchaCredential) credential;
-       // PtUserInfo userInfo = jpaMobileUserRepository.getPrincipal("徐俊");
-     //   System.out.println(userInfo.toString());
-       /* String requestCaptcha = myCredential.getCaptcha();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        Object attribute = attributes.getRequest().getSession().getAttribute("captcha");
+        String serviceUrl = attributes.getRequest().getParameter("service");
+        if(StringUtils.isEmpty(serviceUrl)){
+            //服务为空 则给出提示
+            throw new CaptchaException(CasConstants.ERROR_MESSAGE.LACK_SEVICE);
+            //  未认证授权的服务
+            //  授权的服务重复
+        }
+        //截取服务
+        String urlPath = "";
+        try {
+            URL url = new URL(serviceUrl);
+            urlPath = url.getProtocol()+"://"+url.getAuthority()+"/";
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new FailedLoginException(CasConstants.ERROR_MESSAGE.NO_AUTH_SERVICE);
+        }
+        int serverCount =  jdbcTemplate.queryForObject("select count(1) from PT_SUB_SYSTEM where sso_key = ?", new Object[]{urlPath}, Integer.class);
+        if(serverCount==0){
+            throw new CaptchaException(CasConstants.ERROR_MESSAGE.NO_AUTH_SERVICE);
+        }
+        if(serverCount>1){
+            throw new CaptchaException(CasConstants.ERROR_MESSAGE.REPEAT_SERVICE);
+        }
 
-        String realCaptcha = attribute == null ? null : attribute.toString();
-
-        if (StringUtils.isBlank(requestCaptcha) || !requestCaptcha.equalsIgnoreCase(realCaptcha)) {
-            throw new CaptchaException("验证码错误");
-        }*/
         // 查询数据库加密的的密码
-        Map<String, Object> user = jdbcTemplate.queryForMap("select * from pt_user_info where user_name = ?",
+        Map<String, Object> user = jdbcTemplate.queryForMap("select * from PT_USER_INFO where user_name = ? AND IS_DEL =0",
                 myCredential.getUsername());
-     //   Map<String, Object> user = null;
         if (user == null) {
-            throw new AccountNotFoundException("用户名输入错误或用户名不存在");
+            throw new AccountNotFoundException(CasConstants.ERROR_MESSAGE.ERROR_NAME);
         }
 
         // 返回多属性
@@ -65,11 +88,10 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
         // 密码加密验证(MD5 32位 大写)
         PasswordEncryption passwordEncryption = new PasswordEncryption();
         List<MessageDescriptor>  warning = new ArrayList<MessageDescriptor>();
-        if (passwordEncryption.matches(myCredential.getPassword(), user.get("pswd").toString())) {
+        if (passwordEncryption.matches(myCredential.getPassword(), user.get("password").toString())) {
             return createHandlerResult(myCredential, principalFactory.createPrincipal(myCredential.getUsername(), map),
                     warning);
         }
-
         throw new FailedLoginException("密码输入错误");
     }
 
